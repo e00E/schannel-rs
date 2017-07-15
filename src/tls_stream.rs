@@ -469,7 +469,7 @@ impl<S> TlsStream<S>
                     }
 
                     if needs_flush {
-                        try!(self.stream.flush());
+                        try!(self.flush());
                         if let State::Initializing { ref mut needs_flush, .. } = self.state {
                             *needs_flush = false;
                         }
@@ -818,6 +818,7 @@ impl<S> Write for TlsStream<S>
         self.write_out()?;
 
         let len = cmp::min(buf.len(), sizes.cbMaximumMessage as usize);
+        println!("{} {} {}", self.out_buf.get_ref().len(), buf.len(), sizes.cbMaximumMessage as usize);
 
         self.encrypt(&buf[..len], &sizes)?;
 
