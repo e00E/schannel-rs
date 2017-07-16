@@ -499,6 +499,7 @@ fn accept_a_socket() {
     stream.flush().unwrap();
     let mut buf = [0; 1];
     assert_eq!(stream.read(&mut buf).unwrap(), 0);
+    panic!();
 
     t.join().unwrap();
 }

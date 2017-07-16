@@ -637,9 +637,11 @@ impl<S> TlsStream<S>
     }
 
     fn read_in(&mut self) -> io::Result<usize> {
+        println!("read_in");
         let mut sum_nread = 0;
 
         while self.needs_read > 0 {
+            println!("read_in loop");
             let existing_len = self.enc_in.position() as usize;
             let min_len = cmp::max(cmp::max(1024, 2 * existing_len), self.needs_read);
             if self.enc_in.get_ref().len() < min_len {
@@ -674,6 +676,7 @@ impl<S> TlsStream<S>
 
     fn decrypt(&mut self) -> io::Result<bool> {
         unsafe {
+            println!("decrpyt");
             let position = self.enc_in.position() as usize;
             let mut bufs = [secbuf(winapi::SECBUFFER_DATA,
                                    Some(&mut self.enc_in.get_mut()[..position])),
@@ -836,7 +839,7 @@ impl<S> Read for TlsStream<S>
     where S: Read + Write
 {
     fn read(&mut self, buf: &mut [u8]) -> io::Result<usize> {
-        println!("read");
+        println!("read {}", buf.len());
         let nread = {
             let read_buf = try!(self.fill_buf());
             let nread = cmp::min(buf.len(), read_buf.len());
