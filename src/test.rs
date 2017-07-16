@@ -498,6 +498,7 @@ fn accept_a_socket() {
     stream.write_all(&[1, 2, 3, 4]).unwrap();
     stream.flush().unwrap();
     let mut buf = [0; 1];
+    println!("test last read");
     assert_eq!(stream.read(&mut buf).unwrap(), 0);
     panic!();
 
