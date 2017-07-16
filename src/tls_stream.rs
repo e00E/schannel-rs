@@ -818,7 +818,6 @@ impl<S> Write for TlsStream<S>
         self.write_out()?;
 
         let len = cmp::min(buf.len(), sizes.cbMaximumMessage as usize);
-        println!("{} {} {}", self.out_buf.get_ref().len(), buf.len(), sizes.cbMaximumMessage as usize);
 
         self.encrypt(&buf[..len], &sizes)?;
 
@@ -837,6 +836,7 @@ impl<S> Read for TlsStream<S>
     where S: Read + Write
 {
     fn read(&mut self, buf: &mut [u8]) -> io::Result<usize> {
+        println!("read");
         let nread = {
             let read_buf = try!(self.fill_buf());
             let nread = cmp::min(buf.len(), read_buf.len());
@@ -852,6 +852,7 @@ impl<S> BufRead for TlsStream<S>
     where S: Read + Write
 {
     fn fill_buf(&mut self) -> io::Result<&[u8]> {
+        println!("fill buf {}", self.get_buf().len());
         while self.get_buf().is_empty() {
             if let None = try!(self.initialize()) {
                 break;
@@ -864,6 +865,7 @@ impl<S> BufRead for TlsStream<S>
                 self.needs_read = 0;
             }
 
+            println!("before decrypt");
             let eof = try!(self.decrypt());
             if eof {
                 break;
