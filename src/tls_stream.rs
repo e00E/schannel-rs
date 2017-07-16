@@ -857,6 +857,7 @@ impl<S> BufRead for TlsStream<S>
     fn fill_buf(&mut self) -> io::Result<&[u8]> {
         println!("fill buf {}", self.get_buf().len());
         while self.get_buf().is_empty() {
+            println!("fill_buff loop, needs_read {}", self.needs_read);
             if let None = try!(self.initialize()) {
                 break;
             }
