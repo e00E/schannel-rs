@@ -660,6 +660,7 @@ impl<S> TlsStream<S>
             sum_nread += nread;
         }
 
+        println!("read_in returning {}", sum_read);
         Ok(sum_nread)
     }
 
