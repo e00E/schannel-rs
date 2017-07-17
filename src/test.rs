@@ -483,7 +483,7 @@ fn accept_a_socket() {
         stream.write_all(&[1, 2, 3, 4]).unwrap();
         stream.flush().unwrap();
         assert_eq!(stream.read(&mut [0; 1024]).unwrap(), 4);
-        stream.shutdown().unwrap();
+        //stream.shutdown().unwrap();
     });
 
     let stream = listener.accept().unwrap().0;
@@ -546,7 +546,7 @@ fn accept_one_byte_at_a_time() {
         stream.write_all(&[1, 2, 3, 4]).unwrap();
         stream.flush().unwrap();
         assert_eq!(stream.read(&mut [0; 1024]).unwrap(), 4);
-        stream.shutdown().unwrap();
+        //stream.shutdown().unwrap();
     });
 
     let stream = listener.accept().unwrap().0;
@@ -587,7 +587,7 @@ fn split_cert_key() {
         stream.write_all(&[1, 2, 3, 4]).unwrap();
         stream.flush().unwrap();
         assert_eq!(stream.read(&mut [0; 1024]).unwrap(), 4);
-        stream.shutdown().unwrap();
+        //stream.shutdown().unwrap();
     });
 
     let cert = include_bytes!("../test/cert.der");

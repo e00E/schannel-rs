@@ -308,7 +308,6 @@ impl<S> TlsStream<S>
             State::Shutdown => return Ok(()),
             State::Initializing { shutting_down: true, .. } => {}
             _ => {
-                self.flush();
                 unsafe {
                     let mut token = winapi::SCHANNEL_SHUTDOWN;
                     let ptr = &mut token as *mut _ as *mut u8;
