@@ -621,6 +621,7 @@ impl<S> TlsStream<S>
         while self.out_buf.position() as usize != self.out_buf.get_ref().len() {
             let position = self.out_buf.position() as usize;
             let nwritten = self.stream.write(&self.out_buf.get_ref()[position..])?;
+            println!("write_out wrote {}", nwritten);
             out += nwritten;
             self.out_buf.set_position((position + nwritten) as u64);
         }
