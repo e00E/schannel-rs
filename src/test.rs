@@ -500,7 +500,6 @@ fn accept_a_socket() {
     let mut buf = [0; 1];
     println!("test last read");
     assert_eq!(stream.read(&mut buf).unwrap(), 0);
-    panic!();
 
     t.join().unwrap();
 }
