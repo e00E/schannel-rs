@@ -777,6 +777,8 @@ impl<S> TlsStream<S>
 
             match secur32::EncryptMessage(self.context.get_mut(), 0, &mut bufdesc, 0) {
                 winapi::SEC_E_OK => {
+                    let len = bufs[0].cbBuffer + bufs[1].cbBuffer + bufs[2].cbBuffer;
+                    self.out_buf.get_mut().truncate(len as usize);
                     Ok(())
                 }
                 err => Err(io::Error::from_raw_os_error(err as i32)),
