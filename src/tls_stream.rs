@@ -731,6 +731,7 @@ impl<S> TlsStream<S>
         assert!(buf.len() <= sizes.cbMaximumMessage as usize);
 
         let len = sizes.cbHeader as usize + buf.len() + sizes.cbTrailer as usize;
+        println!("encrpyt first len {}", len);
 
         self.out_buf.set_position(0);
         if self.out_buf.get_ref().len() < len {
@@ -763,6 +764,7 @@ impl<S> TlsStream<S>
             match secur32::EncryptMessage(self.context.get_mut(), 0, &mut bufdesc, 0) {
                 winapi::SEC_E_OK => {
                     let len = bufs[0].cbBuffer + bufs[1].cbBuffer + bufs[2].cbBuffer;
+                    println!("encrpyt second len {}", len);
                     self.out_buf.get_mut().truncate(len as usize);
                     Ok(())
                 }
